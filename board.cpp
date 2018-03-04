@@ -1,5 +1,7 @@
 #include "board.h"
 
+
+
 Board::Board(sf::RenderWindow& win, sf::Image img, int w, int h) 
 : width(w), height(h)
 {
@@ -16,7 +18,17 @@ Board::Board(sf::RenderWindow& win, sf::Image img, int w, int h)
     blank = (--tiles.end())->OrderNumber; //mark bottom right as blank
 
 //ITS SCRAMBLING TIME
-    std::random_shuffle(tiles.begin(), tiles.end());
+    randomize(tiles);
+}
+
+void Board::randomize(std::vector<Tile>& tiles){
+    srand(time(NULL));
+
+    for(int i = 0; i < imageWidth; i++){
+        for(int j = 0; j < imageHeight; j++){
+            Board::move(rand()%imageWidth, rand()%imageHeight);
+        }
+    }
 }
 
 //gets indexes that the clicked tile could move to, given an empty space
@@ -35,21 +47,13 @@ bool Board::checkMoves(){
 }
 
 void Board::swap(Tile& t1, Tile& t2){
-    int tempnum;
-    sf::RectangleShape temptex;
-    
-    tempnum = t1.OrderNumber;
-    t1.OrderNumber = t2.OrderNumber;
-    t2.OrderNumber = tempnum;
-
-    std::swap(t1.texture, t2.texture);
-    t1.texTile.setTexture(&t1.texture);
-    t2.texTile.setTexture(&t2.texture);
-    t2.active = !t2.active;
-    t1.active = !t1.active;
- //   temptex = t1.texTile;
- //   t1.texTile = t2.texTile;
- //   t2.texTile = temptex;
+    std::swap(t1.OrderNumber, t2.OrderNumber);
+    std::swap(t1.active, t2.active);
+    t1.texTile.setTexture(t2.texture.get());
+    t2.texTile.setTexture(t1.texture.get());
+    std::shared_ptr<sf::Texture> temp = t1.texture;
+    t1.texture = t2.texture;
+    t2.texture = t1.texture;
 }
 
 void Board::move(int x, int y){
@@ -60,13 +64,13 @@ void Board::move(int x, int y){
    //check if move is valid
     if(checkMoves()){
 //        valid move, swap tiles
-        std::cout << "CLICKED: " <<  clicked << std::endl;
-        std::cout << "BLANK: " << blank << std::endl;
+        //std::cout << "CLICKED: " <<  clicked << std::endl;
+        //std::cout << "BLANK: " << blank << std::endl;
         Board::swap(tiles[blank], tiles[clicked]);
         blank=clicked;
     }
-    else
-        std::cout << "ERROR: Invalid Move!" << std::endl;
+    //else
+        //std::cout << "ERROR: Invalid Move!" << std::endl;
 
 }
 

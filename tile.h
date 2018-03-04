@@ -2,6 +2,7 @@
 #define TILE_H
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <memory>
 //tile class
 //  has a number to hold the order that it goes in
 //  texture
@@ -13,8 +14,8 @@ class Tile{
         friend class Board;
         int getNum(){ return OrderNumber; }
         Tile(sf::RenderWindow& win, sf::Rect<int> rect, sf::Image Image, int n);
-        Tile(const Tile& t);
-        Tile& operator=(const Tile& t);
+        Tile(const Tile& t) ;
+        Tile& operator=(Tile& t);
         sf::RectangleShape get(){
             return texTile;
         }
@@ -30,7 +31,7 @@ class Tile{
         sf::Vector2f area;
         sf::Image IMG;
         sf::RectangleShape texTile;
-        sf::Texture texture;
+        std::shared_ptr<sf::Texture> texture;
         int OrderNumber;
 };
 
