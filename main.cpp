@@ -28,7 +28,7 @@ int main(int argc, char** argv){
     sf::RectangleShape background(sf::Vector2f(width, height));
     background.setFillColor(sf::Color(100, 15, 60));
     window.setFramerateLimit(60);
-    Board board(window, Img, 5, 5);
+    Board board(window, Img, 3, 3);
     while(window.isOpen()){
         window.clear();
         processEvents(window, board);

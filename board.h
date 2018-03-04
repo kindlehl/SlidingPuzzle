@@ -4,7 +4,8 @@
 #include "tile.h"
 #include <vector>
 #include <set>
-
+#include <ctime>
+#include <random>
 
 class Board{
     public:
@@ -13,11 +14,13 @@ class Board{
         //move
         Board(sf::RenderWindow& win, sf::Image img, int w = 3, int h = 3);
         void draw(){
-            for(auto t : tiles){
-                if(t.on())
-                    t.draw();
+            for(int i = 0; i < tiles.size(); i++){
+                if(tiles[i].on()){
+                    tiles[i].draw();
+                }
             }
         }
+        void randomize(std::vector<Tile>&);
         void move(int x, int y);
         void swap(Tile& t1, Tile& t2);
 

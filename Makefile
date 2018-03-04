@@ -1,7 +1,7 @@
 ALL_DEP= main.cpp tile.cpp tile.h tile.o 
 OBJECTS= main.o tile.o board.o
 CPP=main.cpp tile.cpp
-EXE= prog 
+EXE= SlidingTiles 
 SFML= -lsfml-window -lsfml-graphics -lsfml-system 
 CC= g++ -std=c++11
 
@@ -16,5 +16,6 @@ tile.o: tile.cpp tile.h
 	$(CC) -c tile.cpp $(SFML) -o tile.o 
 board.o: board.cpp board.cpp tile.o tile.cpp tile.h
 	$(CC) -c board.cpp $(SFML) -o board.o
-
+clean:
+	rm -rf *.o
 
