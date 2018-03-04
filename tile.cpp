@@ -1,5 +1,4 @@
 #include "tile.h"
-#include "include/utilities.h"
 
 Tile::Tile(const Tile& t): window(t.window){
     active = t.active;
